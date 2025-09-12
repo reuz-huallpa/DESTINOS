@@ -3,11 +3,14 @@
 namespace App\Livewire\Cuenta;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class MisCompras extends Component
 {
     public function render()
     {
-        return view('livewire.cuenta.mis-compras');
+        $compras = Auth::user()->compras()->with('paquete')->get();
+
+        return view('livewire.cuenta.mis-compras', compact('compras'));
     }
 }

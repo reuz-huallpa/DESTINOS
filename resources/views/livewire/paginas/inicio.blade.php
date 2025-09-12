@@ -11,7 +11,7 @@
             @forelse($paquetes->sortBy('nombre') as $paquete)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow border-0 rounded-4 position-relative overflow-hidden paquete-card" style="transition:transform .2s,box-shadow .2s;">
-                        <img src="{{ asset('images/paquetes/' . $paquete->imagen) }}" alt="{{ $paquete->nombre }}" class="card-img-top" style="height:220px;object-fit:cover;">
+                        <img src="{{ asset('images/' . $paquete->imagen) }}" alt="{{ $paquete->nombre }}" class="card-img-top" style="height:220px;object-fit:cover;">
                         <div class="card-body">
                             <h5 class="card-title fw-bold fs-4 text-dark">{{ $paquete->nombre }}</h5>
                             <p class="card-text text-dark">{{ $paquete->descripcion }}</p>

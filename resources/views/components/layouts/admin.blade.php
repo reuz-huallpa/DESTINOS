@@ -9,6 +9,7 @@
 
     <livewire:components.admin/>
     
+    
     <body>
         {{ $slot }}
     </body>

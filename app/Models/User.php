@@ -47,4 +47,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function compras()
+    {
+        return $this->hasMany(\App\Models\Compra::class);
+    }
+    
+    public function reservas()
+    {
+        return $this->hasMany(\App\Models\Reserva::class);
+    }
+    
 }

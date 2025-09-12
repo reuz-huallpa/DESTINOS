@@ -1,29 +1,31 @@
-@extends('components.layouts.app')
-
-@section('content')
-<div class="container py-4">
-    <h1 class="mb-4">Compras realizadas</h1>
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Paquete</th>
-                <th>Fecha</th>
-                <th>Monto</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($compras as $compra)
-            <tr>
-                <td>{{ $compra->id }}</td>
-                <td>{{ $compra->user->name ?? '-' }}</td>
-                <td>{{ $compra->paquete->nombre ?? '-' }}</td>
-                <td>{{ $compra->created_at }}</td>
-                <td>S/ {{ number_format($compra->monto, 2) }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+<x-layouts.admin>
+    <div class="container py-4">
+        <h1 class="mb-4">Lista de Compras</h1>
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Paquete</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($compras as $compra)
+                    <tr>
+                        <td>{{ $compra->id }}</td>
+                        <td>{{ $compra->user->name ?? 'N/A' }}</td>
+                        <td>{{ $compra->paquete->nombre ?? 'N/A' }}</td>
+                        <td>{{ $compra->cantidad }}</td>
+                        <td>{{ ucfirst($compra->estado) }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No hay compras registradas</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</x-layouts.admin>

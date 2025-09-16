@@ -16,9 +16,10 @@ class Perfil extends Component
 
     public function render()
     {
-        $usuario = Auth::user();
-        $compras = $usuario->compras()->with('paquete')->get();
-        $reservas = $usuario->reservas()->with('paquete')->get();
+            $usuario = Auth::user();
+            $compras = $usuario->compras()->with('paquete')->get();
+            $reservas = $usuario->reservas()->with('paquete')->get();
+            
 
         return view('livewire.cuenta.perfil', compact('usuario', 'compras', 'reservas'))
             ->layout('components.layouts.livewire'); // 👈 fuerza el layout correcto

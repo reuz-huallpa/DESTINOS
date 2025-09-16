@@ -13,14 +13,20 @@ use App\Livewire\Cuenta\MisReservas;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Paginas\Contacto;
+use App\Livewire\Paginas\Ofertas;
 
 // -----------------------------
 // Páginas principales
 // -----------------------------
 Route::get('/', [InicioController::class, 'index'])->name('pagina.inicio');
+Route::get('/paquetes', [InicioController::class, 'listar'])->name('paquetes.index');
 Route::get('/paquetes/{id}', PaqueteDetalle::class)->name('paquetes.show');
+Route::get('/ofertas', [InicioController::class, 'ofertas'])->name('paginas.ofertas');
 
-
+Route::get('/contacto', [InicioController::class, 'contacto'])->name('paginas.contacto');
+// Paquetes (lista y detalle)
+Route::get('/paquetes/{id}', [InicioController::class, 'show'])->name('paquetes.show');
 
 //----------------------------
 // PERFIL DE USUARIO
@@ -42,6 +48,13 @@ Route::get('/admin/dashboard', [InicioController::class, 'dashboard'])->name('ad
 Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
 Route::get('admin/dashboard', [InicioController::class, 'dashboard'])->name('admin.dashboard');
 
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [InicioController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/usuarios', [InicioController::class, 'usuarios'])->name('admin.usuarios');
+    Route::get('/reservas', [InicioController::class, 'reservas'])->name('admin.reservas');
+    Route::get('/compras', [InicioController::class, 'compras'])->name('admin.compras');
+    
+});
 
 // Usuarios
 Route::get('/admin/usuarios', [InicioController::class, 'usuarios'])->name('admin.usuarios');
@@ -58,8 +71,15 @@ Route::get('/admin/reservas', [InicioController::class, 'reservas'])->name('admi
 // -----------------------------
 // Paquetes acciones
 // -----------------------------
+Route::middleware(['auth'])->group(function () {
 Route::post('/paquetes/{id}/reservar', [InicioController::class, 'reservar'])->name('paquetes.reservar');
 Route::post('/paquetes/{id}/comprar', [InicioController::class, 'comprar'])->name('paquetes.comprar');
+
+    // Perfil del usuario
+    Route::get('/mi-cuenta', \App\Livewire\Cuenta\Perfil::class)->name('mi-cuenta');
+    
+});
+Route::get('/mi-cuenta', Perfil::class)->name('mi-cuenta');
 
 // Reservas
 Route::get('/admin/reservas', [InicioController::class, 'reservas'])->name('admin.reservas');
@@ -79,6 +99,35 @@ Route::get('/admin/compras/{id}/editar', [InicioController::class, 'editarCompra
 Route::put('/admin/compras/{id}', [InicioController::class, 'actualizarCompra'])->name('admin.compras.actualizar');
 Route::delete('/admin/compras/{id}', [InicioController::class, 'borrarCompra'])->name('admin.compras.borrar');
 
+
+// MIS COMPRAS Y RESERVAS - RUTAS PROTEGIDAS
+Route::middleware('auth')->group(function () {
+    
+    Route::get('/mi-cuenta/mis-compras', App\Livewire\Cuenta\MisCompras::class)->name('mi-cuenta.mis-compras');
+    Route::get('/mi-cuenta/mis-reservas', App\Livewire\Cuenta\MisReservas::class)->name('mi-cuenta.mis-reservas');
+    Route::get('/mi-cuenta', App\Livewire\Cuenta\Perfil::class)->name('mi-cuenta.perfil');
+});
+
+Route::get('/paquetes/{id}', [InicioController::class, 'show'])->name('paquetes.show');
+
+Route::view('/ofertas', 'livewire.paginas.ofertas')->name('paginas.ofertas');
+Route::view('/contacto', 'livewire.paginas.contacto')->name('paginas.contacto');
+
+Route::get('/contacto', Contacto::class)->name('pagina.contacto');
+Route::get('/ofertas', Ofertas::class)->name('pagina.ofertas');
+
+
+
+
+// Ofertas (puedes crear un método en InicioController o un controlador aparte)
+Route::get('/ofertas', function () {
+    return view('livewire.paginas.ofertas');
+})->name('paginas.ofertas');
+
+// Contacto
+Route::get('/contacto', function () {
+    return view('livewire.paginas.contacto');
+})->name('paginas.contacto');
 
 // -----------------------------
 // Logout

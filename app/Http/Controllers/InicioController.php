@@ -7,9 +7,19 @@ use App\Models\User;
 use App\Models\Compra;
 use App\Models\Reserva;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InicioController extends Controller
 {
+    
+     public function contacto() {
+        return view('livewire.paginas.contacto');
+    }
+
+    public function ofertas() {
+        return view('livewire.paginas.ofertas');
+    }
+    
     // ===================== USUARIOS =====================
     public function usuarios()
     {
@@ -213,32 +223,35 @@ public function borrarCompra($id)
     }
 
     public function reservar($id)
-    {
-        $paquete = Paquete::findOrFail($id);
+{
+    $paquete = Paquete::findOrFail($id);
 
-        Reserva::create([
-            'user_id' => 1, // ⚠️ Cambiar por Auth::id() cuando uses login
-            'paquete_id' => $paquete->id,
-            'cantidad' => 1,
-            'estado' => 'pendiente',
-        ]);
+    $reserva = new Reserva();
+    $reserva->user_id = Auth::id(); // 👈 Usuario autenticado
+    $reserva->paquete_id = $paquete->id;
+    $reserva->cantidad = 1;
+    $reserva->estado = 'pendiente';
+    $reserva->save();
 
-        return redirect()->route('paquetes.show', $paquete->id)
-                         ->with('success', '¡Reserva realizada con éxito!');
-    }
+    return redirect()->route('paquetes.show', $paquete->id)
+                     ->with('success', '¡Reserva realizada con éxito!');
+}
 
-    public function comprar($id)
-    {
-        $paquete = Paquete::findOrFail($id);
+public function comprar($id)
+{
+    $paquete = Paquete::findOrFail($id);
 
-        Compra::create([
-            'user_id' => 1, // ⚠️ Cambiar por Auth::id() cuando uses login
-            'paquete_id' => $paquete->id,
-            'cantidad' => 1,
-            'estado' => 'pendiente',
-        ]);
+    $compra = new Compra();
+    $compra->user_id = Auth::id(); // 👈 Usuario autenticado
+    $compra->paquete_id = $paquete->id;
+    $compra->cantidad = 1;
+    $compra->estado = 'pendiente';
+    $compra->save();
 
-        return redirect()->route('paquetes.show', $paquete->id)
-                         ->with('success', '¡Compra realizada con éxito!');
-    }
+    return redirect()->route('paquetes.show', $paquete->id)
+                     ->with('success', '¡Compra realizada con éxito!');
+}
+
+
+
 }

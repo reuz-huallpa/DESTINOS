@@ -16,7 +16,7 @@ class Login extends Component
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('pagina.inicio');
         } else {
             $this->addError('email', 'Credenciales incorrectas');
         }

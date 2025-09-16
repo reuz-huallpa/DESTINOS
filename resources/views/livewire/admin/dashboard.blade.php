@@ -1,26 +1,6 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dashboard - Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">Panel Admin</a>
-    <div class="d-flex">
-      <a class="btn btn-outline-light me-2" href="{{ route('admin.usuarios') }}">Usuarios</a>
-      <a class="btn btn-outline-light me-2" href="{{ route('admin.compras') }}">Compras</a>
-      <a class="btn btn-outline-light me-2" href="{{ route('admin.reservas') }}">Reservas</a>
-      <form method="POST" action="{{ route('logout') }}" class="ms-2">
-        @csrf
-        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-      </form>
-    </div>
-  </div>
-</nav>
+@extends('components.layouts.admin')
+
+@section('content')
 
 <main class="container py-5">
   <div class="text-center mb-5">
@@ -51,6 +31,9 @@
   </div>
 </main>
 
+@endsection
+
+@push('styles')
 <style>
 .text-gradient{
   background: linear-gradient(90deg,#0dcaf0,#6610f2);
@@ -58,6 +41,4 @@
   -webkit-text-fill-color: transparent;
 }
 </style>
-
-</body>
-</html>
+@endpush

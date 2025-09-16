@@ -1,6 +1,20 @@
 <div class="container mt-5">
     <h2 class="mb-4">Mi Cuenta</h2>
 
+    {{-- Datos del usuario --}}
+    <div class="d-flex align-items-center mb-4">
+        <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center" 
+             style="width: 100px; height: 100px;">
+            <span class="text-white">Foto</span>
+        </div>
+        <div class="ms-4 p-3 border border-warning rounded flex-fill">
+            <h4>{{ Auth::user()->name }}</h4>
+            <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+            <p><strong>Teléfono:</strong> {{ Auth::user()->telefono ?? 'No registrado' }}</p>
+            <p><strong>DNI:</strong> {{ Auth::user()->dni ?? 'No registrado' }}</p>
+        </div>
+    </div>
+
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs" id="miCuentaTabs" role="tablist">
         <li class="nav-item" role="presentation">
